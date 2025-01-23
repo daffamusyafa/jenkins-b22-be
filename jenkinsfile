@@ -18,7 +18,7 @@ pipeline {
                 }
             }
         }
-        stage ('Build Proses'){
+        stage ('Build Process'){
             steps{
                 sshagent([secret]){
                     sh """ssh -o StrictHostKeyChecking=no ${server} << EOF
