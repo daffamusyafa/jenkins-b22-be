@@ -1,4 +1,4 @@
-def secret = 'global'
+def secret = 'ssh-global'
 def server = 'team1@103.127.139.123'
 def directory = 'wayshub-backend'
 def branch = 'main'
