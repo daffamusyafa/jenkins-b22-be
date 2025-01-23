@@ -7,7 +7,7 @@ pipeline {
         stage ('pulling new code'){
             steps{
                 sshagent([secret]){
-                    sh """ssh -o StrictHostkeyChecking=no ${server} << EOF
+                    sh """ssh -o StrictHostKeyChecking=no ${server} << EOF
                     cd jenkins
                     cd wayshub-backend
                     git pull origin main
@@ -19,7 +19,7 @@ pipeline {
         stage ('Build Proses'){
             steps{
                 sshagent([secret]){
-                    sh """ssh -o StrictHostkeyChecking=no ${server} << EOF
+                    sh """ssh -o StrictHostKeyChecking=no ${server} << EOF
                     cd jenkins
                     cd wayshub-backend
                     docker build --no-cache -t daffamusyafa/wayshub-b22-be:latest .
@@ -31,7 +31,7 @@ pipeline {
         stage ('Deploy'){
             steps{
                 sshagent([secret]){
-                    sh """ssh -o StrictHostkeyChecking=no ${server} << EOF
+                    sh """ssh -o StrictHostKeyChecking=no ${server} << EOF
                     cd jenkins
                     cd wayshub-backend
                     docker compose down
