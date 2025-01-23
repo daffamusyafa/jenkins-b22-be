@@ -11,8 +11,7 @@ pipeline {
             steps{
                 sshagent([secret]){
                     sh """ssh -o StrictHostKeyChecking=no ${server} << EOF
-                    cd jenkins
-                    cd ${directory}
+                    cd jenkins/${directory}
                     git pull origin ${branch}
                     exit
                     EOF"""
@@ -23,8 +22,7 @@ pipeline {
             steps{
                 sshagent([secret]){
                     sh """ssh -o StrictHostKeyChecking=no ${server} << EOF
-                    cd jenkins
-                    cd ${directory}
+                    cd jenkins/${directory}
                     docker build --no-cache -t ${image} .
                     exit
                     EOF"""
@@ -35,8 +33,7 @@ pipeline {
             steps{
                 sshagent([secret]){
                     sh """ssh -o StrictHostKeyChecking=no ${server} << EOF
-                    cd jenkins
-                    cd ${directory}
+                    cd jenkins/${directory}
                     docker compose down
                     docker compose up -d
                     exit
