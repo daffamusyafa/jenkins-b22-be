@@ -1,0 +1,60 @@
+def secret = 'global'
+def server = 'team1@103.127.139.123'
+
+pipeline {
+    agent any
+    stages {
+        stage ('pulling new code'){
+            steps{
+                sshagent([secret]){
+                    sh """ssh -o StrictHostkeyChecking=no ${server} << EOF
+                    cd jenkins
+                    cd wayshub-backend
+                    git pull origin main
+                    exit
+                    EOF"""
+                }
+            }
+
+        }
+
+
+    }
+}
+
+pipeline {
+    agent any
+    stages {
+        stage ('Build Proses'){
+            steps{
+                sshagent([secret]){
+                    sh """ssh -o StrictHostkeyChecking=no ${server} << EOF
+                    cd jenkins
+                    cd wayshub-backend
+                    docker build --no-cache -t daffamusyafa/wayshub-b22-be:latest .
+                    exit
+                    EOF"""
+                }
+            }
+pipeline {
+    agent any
+    stages {
+        stage ('Deploy'){
+            steps{
+                sshagent([secret]){
+                    sh """ssh -o StrictHostkeyChecking=no ${server} << EOF
+                    cd jenkins
+                    cd wayshub-backend
+                    docker compose up -d
+                    exit
+                    EOF"""
+                }
+            }
+
+        }
+
+        }
+
+
+    }
+}
